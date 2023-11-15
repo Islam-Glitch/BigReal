@@ -1,7 +1,7 @@
 #include "BigReal.h"
 
-//___________________________________________isValidReal
-bool BigReal :: isValidReal (string realNumber){
+//__________________________________________isValidReal
+bool BigReal :: isValidReal (string realNumber) {
     int DotsNum{0};
     for(unsigned long long i{1}; i < realNumber.size(); i++){
         // loop on the string if u found anything other the dot and the numbers
@@ -14,7 +14,7 @@ bool BigReal :: isValidReal (string realNumber){
             }
         }
         else return false;
-        //_______________________________________________________
+        //______________________________________________________
     }
 
     // if the user didn't add a sign and it's a valid number
@@ -24,7 +24,7 @@ bool BigReal :: isValidReal (string realNumber){
 }
 
 //___________________________________________default constructor
-BigReal :: BigReal (){
+BigReal :: BigReal () {
     // make the number positive and equal 0.0 by default
     BigRealSign = '+';
     integer.push_back(0);
@@ -32,7 +32,7 @@ BigReal :: BigReal (){
 }
 
 //_________________________________________________ parametrized constructor
-BigReal :: BigReal(const string& realNumber){
+BigReal :: BigReal(const string& realNumber) {
     // first check if it's a valid number
     if(isValidReal(realNumber)){
         // take the sign if there otherwise make it + by default
@@ -64,8 +64,8 @@ BigReal :: BigReal(const string& realNumber){
 }
 
 //_________________________________________________ copy constructor
-BigReal :: BigReal(const BigReal& other){
-    // take the sign copy
+BigReal :: BigReal(const BigReal& other) {
+    // take the sign copy 
     this -> BigRealSign = other.BigRealSign;
 
     // then copy the integer part
@@ -81,18 +81,18 @@ BigReal :: BigReal(const BigReal& other){
 }
 
 //_________________________________________________ return the BigReal size
-int BigReal :: size(){
+int BigReal :: size() {
     return integer.size() + fraction.size() + 2;
 }
 
 //_________________________________________________ return the BigReal sign
-int BigReal :: sign(){
+int BigReal :: sign() {
     if(BigRealSign == '+') return 1;
     return -1;
 }
 
 //_________________________________________________ overloading operator <
-bool BigReal :: operator< (BigReal anotherReal){
+bool BigReal :: operator< (BigReal anotherReal) {
     bool lessThan{false}, graterThan{false};
     // if they don't have the same sign the positive will be the bigger
     if(this -> BigRealSign == '+' && anotherReal.BigRealSign == '-') return false;
@@ -105,12 +105,12 @@ bool BigReal :: operator< (BigReal anotherReal){
     if(this -> integer.size() < anotherReal.integer.size()) lessThan = true, graterThan = false;
     else{
         for(unsigned long long i = integer.size() - 1; i > 0; i--){
-            if(this -> integer[i] > anotherReal.integer[i]){
+            if(this -> integer[i] > anotherReal.integer[i]) {
                 graterThan = true;
                 lessThan = false;
                 break;
             }
-            else if(this -> integer[i] < anotherReal.integer[i]){
+            else if(this -> integer[i] < anotherReal.integer[i]) {
                 lessThan = true;
                 graterThan = false;
                 break;
@@ -123,13 +123,13 @@ bool BigReal :: operator< (BigReal anotherReal){
         unsigned long long lowSiz = this->fraction.size();
         if (lowSiz > anotherReal.fraction.size()) lowSiz = anotherReal.fraction.size();
         for (unsigned long long i = lowSiz - 1; i > 0; i--) {
-            if (this->fraction[i] > anotherReal.fraction[i]){
+            if (this->fraction[i] > anotherReal.fraction[i]) {
                 graterThan = true;
                 lessThan = false;
                 break;
             }
 
-            else if (this->fraction[i] < anotherReal.fraction[i]){
+            else if (this->fraction[i] < anotherReal.fraction[i]) {
                 lessThan = true;
                 graterThan = false;
                 break;
@@ -145,7 +145,7 @@ bool BigReal :: operator< (BigReal anotherReal){
 }
 
 //_________________________________________________ overloading operator >
-bool BigReal :: operator> (BigReal anotherReal){
+bool BigReal :: operator> (BigReal anotherReal) {
     bool lessThan{false}, graterThan{false};
     // if they don't have the same sign the positive will be the bigger
     if(this -> BigRealSign == '+' && anotherReal.BigRealSign == '-') return true;
@@ -158,12 +158,12 @@ bool BigReal :: operator> (BigReal anotherReal){
     if(this -> integer.size() < anotherReal.integer.size()) lessThan = true, graterThan = false;
     else{
         for(unsigned long long i = integer.size() - 1; i > 0; i--){
-            if(this -> integer[i] > anotherReal.integer[i]){
+            if(this -> integer[i] > anotherReal.integer[i]) {
                 graterThan = true;
                 lessThan = false;
                 break;
             }
-            else if(this -> integer[i] < anotherReal.integer[i]){
+            else if(this -> integer[i] < anotherReal.integer[i]) {
                 lessThan = true;
                 graterThan = false;
                 break;
@@ -176,13 +176,13 @@ bool BigReal :: operator> (BigReal anotherReal){
         unsigned long long lowSiz = this->fraction.size();
         if (lowSiz > anotherReal.fraction.size()) lowSiz = anotherReal.fraction.size();
         for (unsigned long long i = lowSiz - 1; i > 0; i--) {
-            if (this->fraction[i] > anotherReal.fraction[i]){
+            if (this->fraction[i] > anotherReal.fraction[i]) {
                 graterThan = true;
                 lessThan = false;
                 break;
             }
 
-            else if (this->fraction[i] < anotherReal.fraction[i]){
+            else if (this->fraction[i] < anotherReal.fraction[i]) {
                 lessThan = true;
                 graterThan = false;
                 break;
@@ -197,7 +197,7 @@ bool BigReal :: operator> (BigReal anotherReal){
 }
 
 //_________________________________________________ overloading operator ==
-bool BigReal :: operator== (const BigReal& anotherReal){
+bool BigReal :: operator== (const BigReal& anotherReal) {
     // if num >! num2 && num <! num2 that means num == num2
     if((*this > anotherReal) || (*this < anotherReal)) return false;
     return true;
@@ -205,8 +205,8 @@ bool BigReal :: operator== (const BigReal& anotherReal){
 }
 
 //_________________________________________________ overloading operator +
-BigReal BigReal::operator+(const BigReal& other){
-    BigReal answer;
+BigReal BigReal::operator+(const BigReal& other) {
+    BigReal answer; 
     int carry = 0;
 
     // Add fractions
