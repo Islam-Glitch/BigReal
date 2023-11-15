@@ -90,3 +90,116 @@ int BigReal :: sign(){
     if(BigRealSign == '+') return 1;
     return -1;
 }
+
+//_________________________________________________ overloading operator <
+bool BigReal :: operator< (BigReal anotherReal){
+    bool lessThan{false}, graterThan{false};
+    // if they don't have the same sign the positive will be the bigger
+    if(this -> BigRealSign == '+' && anotherReal.BigRealSign == '-') return false;
+    else if(this -> BigRealSign == '-' && anotherReal.BigRealSign == '+') return true;
+
+    // if they have the same sign look up what is it
+    // and then compare with the appropriate way
+    //_______________________________________________________________________________
+
+    if(this -> integer.size() < anotherReal.integer.size()) lessThan = true, graterThan = false;
+    else{
+        for(unsigned long long i = integer.size() - 1; i > 0; i--){
+            if(this -> integer[i] > anotherReal.integer[i]){
+                graterThan = true;
+                lessThan = false;
+                break;
+            }
+            else if(this -> integer[i] < anotherReal.integer[i]){
+                lessThan = true;
+                graterThan = false;
+                break;
+            }
+        }
+    }
+
+    // if the integer part is equal check the fraction part
+    if(!lessThan && !graterThan){
+        unsigned long long lowSiz = this->fraction.size();
+        if (lowSiz > anotherReal.fraction.size()) lowSiz = anotherReal.fraction.size();
+        for (unsigned long long i = lowSiz - 1; i > 0; i--) {
+            if (this->fraction[i] > anotherReal.fraction[i]){
+                graterThan = true;
+                lessThan = false;
+                break;
+            }
+
+            else if (this->fraction[i] < anotherReal.fraction[i]){
+                lessThan = true;
+                graterThan = false;
+                break;
+            }
+        }
+        if ((this->fraction.size() < anotherReal.fraction.size()) && !lessThan && !graterThan) {
+            lessThan = true;
+            graterThan = false;
+        }
+    }
+    if((lessThan && BigRealSign == '+') || (graterThan && BigRealSign == '-')) return true;
+    else return  false;
+}
+
+//_________________________________________________ overloading operator >
+bool BigReal :: operator> (BigReal anotherReal){
+    bool lessThan{false}, graterThan{false};
+    // if they don't have the same sign the positive will be the bigger
+    if(this -> BigRealSign == '+' && anotherReal.BigRealSign == '-') return true;
+    else if(this -> BigRealSign == '-' && anotherReal.BigRealSign == '+') return false;
+
+    // if they have the same sign look up what is it
+    // and then compare with the appropriate way
+    //_______________________________________________________________________________
+
+    if(this -> integer.size() < anotherReal.integer.size()) lessThan = true, graterThan = false;
+    else{
+        for(unsigned long long i = integer.size() - 1; i > 0; i--){
+            if(this -> integer[i] > anotherReal.integer[i]){
+                graterThan = true;
+                lessThan = false;
+                break;
+            }
+            else if(this -> integer[i] < anotherReal.integer[i]){
+                lessThan = true;
+                graterThan = false;
+                break;
+            }
+        }
+    }
+
+    // if the integer part is equal check the fraction part
+    if(!lessThan && !graterThan){
+        unsigned long long lowSiz = this->fraction.size();
+        if (lowSiz > anotherReal.fraction.size()) lowSiz = anotherReal.fraction.size();
+        for (unsigned long long i = lowSiz - 1; i > 0; i--) {
+            if (this->fraction[i] > anotherReal.fraction[i]){
+                graterThan = true;
+                lessThan = false;
+                break;
+            }
+
+            else if (this->fraction[i] < anotherReal.fraction[i]){
+                lessThan = true;
+                graterThan = false;
+                break;
+            }
+        }
+        if ((this->fraction.size() > anotherReal.fraction.size()) && !lessThan && !graterThan) {
+            graterThan = true;
+        }
+    }
+    if((graterThan && BigRealSign == '+') || (lessThan && BigRealSign == '-')) return true;
+    else return  false;
+}
+
+//_________________________________________________ overloading operator ==
+bool BigReal :: operator== (const BigReal& anotherReal){
+    // if num >! num2 && num <! num2 that means num == num2
+    if((*this > anotherReal) || (*this < anotherReal)) return false;
+    return true;
+
+}
