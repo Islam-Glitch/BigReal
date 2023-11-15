@@ -22,3 +22,11 @@ bool BigReal :: isValidReal (string realNumber){
     if(realNumber[0] == '+' || realNumber[0] == '-') return true; // if the first index is sign
     return false;
 }
+
+//___________________________________________default constructor
+BigReal :: BigReal (){
+    // make the number positive and equal 0.0 by default
+    BigRealSign = '+';
+    integer.push_back(0);
+    fraction.push_back(0);
+}
