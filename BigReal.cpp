@@ -205,7 +205,7 @@ bool BigReal :: operator== (const BigReal& anotherReal) {
 }
 
 //_________________________________________________ overloading operator +
-BigReal BigReal::operator+(const BigReal& other) {
+BigReal BigReal::operator+ (const BigReal& other) {
     BigReal answer; 
     int carry = 0;
 
