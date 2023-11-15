@@ -203,3 +203,101 @@ bool BigReal :: operator== (const BigReal& anotherReal){
     return true;
 
 }
+
+//_________________________________________________ overloading operator +
+BigReal BigReal::operator+(const BigReal& other){
+    BigReal answer;
+    int carry = 0;
+
+    // Add fractions
+    int maxSize = std::max(fraction.size(), other.fraction.size());
+    for (int i = 0; i < maxSize; ++i) {
+        int num1 = (i < fraction.size()) ? fraction[i] : 0;
+        int num2 = (i < other.fraction.size()) ? other.fraction[i] : 0;
+        int sum = num1 + num2 + carry;
+        carry = sum / 10;
+        answer.fraction.push_back(sum % 10);
+    }
+
+    // Add integers
+    maxSize = std::max(integer.size(), other.integer.size());
+    for (int i = 0; i < maxSize; ++i) {
+        int num1 = (i < integer.size()) ? integer[i] : 0;
+        int num2 = (i < other.integer.size()) ? other.integer[i] : 0;
+        int sum = num1 + num2 + carry;
+        carry = sum / 10;
+        answer.integer.push_back(sum % 10);
+    }
+
+    // If there is a carry after adding integers, add it to the answer
+    if (carry > 0) {
+        answer.integer.push_back(carry);
+    }
+
+    // Set the sign of the answer
+    answer.BigRealSign = BigRealSign;
+
+    return answer;
+}
+//_________________________________________________ overloading operator -
+BigReal BigReal::operator- (BigReal& other) {
+    BigReal answer, small, big;
+    unsigned long long siz = 0;
+    int borrow = 0;
+
+    // Determine the larger and smaller numbers
+    if (*this > other || *this == other) {
+        big = *this;
+        small = other;
+    } else {
+        big = other;
+        small = *this;
+        answer.BigRealSign = '-';  // Set the sign of the answer to negative
+    }
+
+    // Subtract integers
+    siz = max(big.integer.size(), small.integer.size());
+    for(unsigned long long i = 0; i < siz; i++){
+        int digitBig = i < big.integer.size() ? big.integer[i] : 0;
+        int digitSmall = i < small.integer.size() ? small.integer[i] : 0;
+
+        int diff = digitBig - digitSmall - borrow;
+        if (diff < 0) {
+            diff += 10;
+            borrow = 1;
+        } else {
+            borrow = 0;
+        }
+
+        answer.integer.push_back(diff);
+    }
+
+    // Subtract fractions
+    siz = std::max(big.fraction.size(), small.fraction.size());
+    for(unsigned long long i = 0; i < siz; i++){
+        int digitBig = i < big.fraction.size() ? big.fraction[i] : 0;
+        int digitSmall = i < small.fraction.size() ? small.fraction[i] : 0;
+
+        int diff = digitBig - digitSmall - borrow;
+        if (diff < 0) {
+            diff += 10;
+            borrow = 1;
+        } else {
+            borrow = 0;
+        }
+
+        answer.fraction.push_back(diff);
+    }
+
+    // Remove leading zeros from the answer's integer part
+    while (!answer.integer.empty() && answer.integer.back() == 0) {
+        answer.integer.pop_back();
+    }
+
+    // If the answer is zero, set the sign to positive
+    if (answer.integer.empty() && answer.fraction.empty()) {
+        answer.BigRealSign = '+';
+    }
+
+    return answer;
+}
