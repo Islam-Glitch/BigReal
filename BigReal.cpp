@@ -79,3 +79,14 @@ BigReal :: BigReal(const BigReal& other){
     // copy the position of the dot
     this -> dotIndex = other.dotIndex;
 }
+
+//_________________________________________________ return the BigReal size
+int BigReal :: size(){
+    return integer.size() + fraction.size() + 2;
+}
+
+//_________________________________________________ return the BigReal sign
+int BigReal :: sign(){
+    if(BigRealSign == '+') return 1;
+    return -1;
+}
