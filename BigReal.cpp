@@ -62,3 +62,20 @@ BigReal :: BigReal(const string& realNumber){
         this -> fraction.push_back(0);
     }
 }
+
+//_________________________________________________ copy constructor
+BigReal :: BigReal(const BigReal& other){
+    // take the sign copy
+    this -> BigRealSign = other.BigRealSign;
+
+    // then copy the integer part
+    for(unsigned long long i{0}; i < other.integer.size(); i++)
+        this -> integer.push_back(other.integer[i]);
+
+    // then copy the fraction part
+    for(unsigned long long i{0}; i < (other.fraction).size(); i++)
+        this -> fraction.push_back(other.fraction[i]);
+
+    // copy the position of the dot
+    this -> dotIndex = other.dotIndex;
+}
