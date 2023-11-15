@@ -30,3 +30,35 @@ BigReal :: BigReal (){
     integer.push_back(0);
     fraction.push_back(0);
 }
+
+//_________________________________________________ parametrized constructor
+BigReal :: BigReal(const string& realNumber){
+    // first check if it's a valid number
+    if(isValidReal(realNumber)){
+        // take the sign if there otherwise make it + by default
+        if(realNumber[0] == '+' || realNumber[0] == '-') BigRealSign = realNumber[0];
+        else BigRealSign = '+';
+
+        // fill the integer part tell the dot position
+        for(unsigned long long i{dotIndex - 1};i > 0; i--){
+            integer.push_back((int)realNumber[i] - 48);
+        }
+
+        // fill the fraction part tell the end
+        unsigned long long siz = realNumber.size();
+        for(unsigned long long i{siz - 1};i > dotIndex && (dotIndex != 0 || realNumber[0] == '.'); i--){
+            fraction.push_back((int)realNumber[i] - 48);
+        }
+
+        // if the fraction part or the integer part is empty assign it with 0
+        if(integer.empty()) integer.push_back(0);
+        if(fraction.empty()) fraction.push_back(0);
+    }
+
+        // tell the user his number is not valid
+    else{
+        cout << "not valid number\n";
+        this -> integer.push_back(0);
+        this -> fraction.push_back(0);
+    }
+}
